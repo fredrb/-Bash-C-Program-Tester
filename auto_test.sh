@@ -32,18 +32,24 @@ function exists(){
 }
 
 function tests(){
-	$program=$1
-	$prob=$2
+	program=$1
+	prob=$2
 	goto_test
 	cd $prob	
-	for i in 1000 ; do
+    
+    #DEBUG
+    echo "---"
+    pwd
+    echo "---"
+    #ENDDEBUG
+    for i in {0..1000} ; do
 		if ((i > 9)) ; then
-			if ! $(ls $i*) ; then
+			if ! $(ls "$i*") ; then
 				echo "Break"
 				break
 			fi
 		else
-			if ! $(ls 0$i*) ; then
+			if ! $(ls "0$i*") ; then
 				echo "Break"
 				break		
 			fi
@@ -73,13 +79,13 @@ for prob in $(ls) ; do
 	 echo "$prob nao foi enviado " 
 	 stats=1
 	else
-	 #echo $prob
+     echo $prob
 	 compile $prob.c $prob
 	 if [ $? -ne 0 ] ; then
 		echo $prob.c nao compilou com sucesso, veja o log.
 		stats=l
 	 else	
-		wdir=$(pwd)/$prob.out
+		wdir="$(pwd)/$prob.out"
 		tests $wdir $prob
 	 fi
 	fi
